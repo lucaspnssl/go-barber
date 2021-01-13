@@ -8,12 +8,14 @@ usersRouter.post("/", async (request, response) => {
         const { name, email, password } = request.body;
 
         const createUser = new CreateUserService();
-
         const user = await createUser.execute({
             name,
             email,
             password,
         });
+
+        // @ts-expect-error
+        delete user.password;
 
         return response.json(user);
     } catch (e) {
