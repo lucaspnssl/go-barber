@@ -24,20 +24,16 @@ function getUserWithoutPassword(user: User) {
 }
 
 usersRouter.post("/", async (request, response) => {
-    try {
-        const { name, email, password } = request.body;
+    const { name, email, password } = request.body;
 
-        const createUser = new CreateUserService();
-        const user = await createUser.execute({
-            name,
-            email,
-            password,
-        });
+    const createUser = new CreateUserService();
+    const user = await createUser.execute({
+        name,
+        email,
+        password,
+    });
 
-        return response.json(getUserWithoutPassword(user));
-    } catch (e) {
-        return response.status(400).json({ error: e.message });
-    }
+    return response.json(getUserWithoutPassword(user));
 });
 
 usersRouter.patch(
@@ -45,18 +41,14 @@ usersRouter.patch(
     ensureAuthenticated,
     upload.single("avatar"),
     async (request, response) => {
-        try {
-            const updateAvatarService = new UpdateAvatarService();
+        const updateAvatarService = new UpdateAvatarService();
 
-            const user = await updateAvatarService.execute({
-                user_id: request.user.id,
-                avatarFileName: request.file.filename,
-            });
+        const user = await updateAvatarService.execute({
+            user_id: request.user.id,
+            avatarFileName: request.file.filename,
+        });
 
-            return response.json(getUserWithoutPassword(user));
-        } catch (e) {
-            return response.status(400).json({ error: e.message });
-        }
+        return response.json(getUserWithoutPassword(user));
     }
 );
 
