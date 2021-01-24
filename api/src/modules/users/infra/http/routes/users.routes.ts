@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { container } from 'tsyringe';
 
 import CreateUserService from "@modules/users/services/CreateUserService";
 import UpdateAvatarService from "@modules/users/services/UpdateUserAvatarService";
@@ -26,9 +27,8 @@ function getUserWithoutPassword(user: User) {
 
 usersRouter.post("/", async (request, response) => {
     const { name, email, password } = request.body;
-    const usersRepository = new UsersRepository();
 
-    const createUser = new CreateUserService(usersRepository);
+    const createUser = container.resolve(CreateUserService);
     const user = await createUser.execute({
         name,
         email,
@@ -43,8 +43,7 @@ usersRouter.patch(
     ensureAuthenticated,
     upload.single("avatar"),
     async (request, response) => {
-        const usersRepository = new UsersRepository();
-        const updateAvatarService = new UpdateAvatarService(usersRepository);
+        const updateAvatarService = container.resolve(UpdateAvatarService);
 
         const user = await updateAvatarService.execute({
             user_id: request.user.id,
