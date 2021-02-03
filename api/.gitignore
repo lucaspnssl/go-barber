@@ -4,5 +4,5 @@ coverage/
 .vscode/
 tmp/*
 !tmp/.gitkeep
-
+README.md
 
