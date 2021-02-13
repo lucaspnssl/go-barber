@@ -1,4 +1,5 @@
 import CreateUserService from "@modules/users/services/CreateUserService";
+import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 import User from "../../typeorm/entities/User";
@@ -17,13 +18,6 @@ export default class UsersController {
             password,
         });
 
-        return response.json({
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            created_at: user.created_at,
-            updated_at: user.updated_at,
-            avatar: user.avatar,
-        });
+        return response.json(classToClass(user));
     }
 }
