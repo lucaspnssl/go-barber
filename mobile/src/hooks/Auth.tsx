@@ -54,14 +54,14 @@ export const AuthProvider: React.FC = ({ children }) => {
       password,
     });
 
-    const { token, userWithoutPassword } = response.data;
+    const { token, user } = response.data;
 
     await AsyncStorage.multiSet([
       ['@GoBarber:token', token],
-      ['@GoBarber:user', JSON.stringify(userWithoutPassword)],
+      ['@GoBarber:user', JSON.stringify(user)],
     ]);
 
-    setData({ token, user: userWithoutPassword });
+    setData({ token, user });
   }, []);
 
   const signOut = useCallback(async () => {
